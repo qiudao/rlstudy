@@ -21,7 +21,7 @@ run: build ## Start env daemon, run agent, stop env
 	@./bin/agent; ret=$$?; $(MAKE) -s stop; exit $$ret
 
 stop: ## Stop env daemon
-	@if [ -f .bandit-env.pid ]; then kill $$(cat .bandit-env.pid) 2>/dev/null; rm -f .bandit-env.pid; echo "bandit-env stopped"; else echo "no daemon running"; fi
+	@if [ -f .bandit-env.pid ]; then kill $$(cat .bandit-env.pid) 2>/dev/null; rm -f .bandit-env.pid /tmp/bandit-env.sock; echo "bandit-env stopped"; else echo "no daemon running"; fi
 
 clean: ## Remove build artifacts
 	rm -rf bin/

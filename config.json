@@ -1,4 +1,5 @@
 {
     "port": 21320,
-    "arms": 10
+    "arms": 10,
+    "socket": "/tmp/bandit-env.sock"
 }

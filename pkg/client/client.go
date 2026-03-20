@@ -2,8 +2,10 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/http"
 
 	"github.com/qiudao/rlstudy/pkg/env"
@@ -14,8 +16,23 @@ type Client struct {
 	client *http.Client
 }
 
+// New creates a client connecting via TCP to the given base URL.
 func New(baseURL string) *Client {
 	return &Client{base: baseURL, client: &http.Client{}}
+}
+
+// NewUnix creates a client connecting via Unix domain socket.
+func NewUnix(socketPath string) *Client {
+	return &Client{
+		base: "http://unix",
+		client: &http.Client{
+			Transport: &http.Transport{
+				DialContext: func(_ context.Context, _, _ string) (net.Conn, error) {
+					return net.Dial("unix", socketPath)
+				},
+			},
+		},
+	}
 }
 
 func (c *Client) Info() (env.InfoResponse, error) {

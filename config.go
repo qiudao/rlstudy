@@ -6,12 +6,13 @@ import (
 )
 
 type Config struct {
-	Port int `json:"port"`
-	Arms int `json:"arms"`
+	Port   int    `json:"port"`
+	Arms   int    `json:"arms"`
+	Socket string `json:"socket"`
 }
 
 func DefaultConfig() Config {
-	return Config{Port: 21320, Arms: 10}
+	return Config{Port: 21320, Arms: 10, Socket: "/tmp/bandit-env.sock"}
 }
 
 func LoadConfig(path string) (Config, error) {

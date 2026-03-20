@@ -12,6 +12,7 @@ import (
 	"github.com/qiudao/rlstudy"
 	"github.com/qiudao/rlstudy/pkg/client"
 	"github.com/qiudao/rlstudy/pkg/runner"
+
 )
 
 func main() {
@@ -30,17 +31,18 @@ func main() {
 		cfg = rlstudy.DefaultConfig()
 	}
 
-	base := *envURL
-	if base == "" {
-		base = fmt.Sprintf("http://localhost:%d", cfg.Port)
-	}
-
 	epsilons := parseFloats(*epsilonsStr)
-	c := client.New(base)
+
+	var c *client.Client
+	if *envURL != "" {
+		c = client.New(*envURL)
+	} else {
+		c = client.NewUnix(cfg.Socket)
+	}
 
 	info, err := c.Info()
 	if err != nil {
-		log.Fatalf("cannot connect to env at %s: %v", base, err)
+		log.Fatalf("cannot connect to env: %v", err)
 	}
 	log.Printf("connected to env: %d arms", info.Arms)
 
