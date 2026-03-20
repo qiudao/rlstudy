@@ -1,5 +1,6 @@
 # Binaries
 bin/
+.bandit-env.pid
 *.exe
 *.out
 *.bin
